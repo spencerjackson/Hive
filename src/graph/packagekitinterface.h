@@ -32,7 +32,7 @@ namespace hive {
 class PackageKitInterface : public ExternalDependencyResolver {
 
 public:
-	PackageKitInterface(std::unique_ptr<ExternalDependencyMapper>&& mapper);
+	PackageKitInterface(std::unique_ptr<ExternalDependencyMapperInterface>&& mapper);
 	virtual ~PackageKitInterface();
 
 	virtual void resolve();

@@ -19,16 +19,16 @@
 
 #ifndef DUMMYEXTERNALDEPENDENCYMAPPER_H
 #define DUMMYEXTERNALDEPENDENCYMAPPER_H
-#include "externaldependencymapper.h"
+#include "externaldependencymapperinterface.h"
 
 namespace hive {
-class DummyExternalDependencyMapper : public ExternalDependencyMapper {
+class DummyExternalDependencyMapper : public ExternalDependencyMapperInterface {
 
 public:
 	DummyExternalDependencyMapper();
 	virtual ~DummyExternalDependencyMapper();
 
-	virtual std::string map(const std::string& package_name) const;
+	virtual std::string map(std::string const& package_name) const;
 };
 
 } //hive

@@ -17,12 +17,12 @@
 */
 
 #include "externaldependencyresolver.h"
-#include "externaldependencymapper.h"
+#include "externaldependencymapperinterface.h"
 
 namespace hive {
 
 ExternalDependencyResolver::ExternalDependencyResolver(
-	std::unique_ptr<ExternalDependencyMapper>&& mapper)
+	std::unique_ptr<ExternalDependencyMapperInterface>&& mapper)
 : mapper(std::move(mapper)) {}
 
 ExternalDependencyResolver::~ExternalDependencyResolver() {}

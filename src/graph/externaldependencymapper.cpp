@@ -1,5 +1,5 @@
 /*
-    Hive: A robotics package manager
+    <one line to give the program's name and a brief idea of what it does.>
     Copyright (C) 2011  Spencer Jackson <spencerandrewjackson@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,16 +17,18 @@
 */
 
 
-#include "dummyexternaldependencymapper.h"
+#include "externaldependencymapper.h"
 
 namespace hive {
-DummyExternalDependencyMapper::DummyExternalDependencyMapper() {}
+ExternalDependencyMapper::ExternalDependencyMapper() {}
 
-DummyExternalDependencyMapper::~DummyExternalDependencyMapper() {}
+ExternalDependencyMapper::~ExternalDependencyMapper() {}
 
-std::string DummyExternalDependencyMapper::map(std::string const& package_name) const {
-	return package_name;
+void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
+	internal_map[key] = value;
+}
+std::string ExternalDependencyMapper::map(std::string const& dependency) const {
+	return internal_map.at(dependency);
 }
 
 } //hive
-

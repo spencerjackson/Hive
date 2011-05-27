@@ -16,19 +16,27 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #ifndef EXTERNALDEPENDENCYMAPPER_H
 #define EXTERNALDEPENDENCYMAPPER_H
-#include "externaldependency.h"
+
+#include <string>
+#include <unordered_map>
+#include "externaldependencymapperinterface.h"
 
 namespace hive {
 
-class ExternalDependencyMapper {
+class ExternalDependencyMapper : public ExternalDependencyMapperInterface {
 public:
-	ExternalDependencyMapper() {}
-	virtual ~ExternalDependencyMapper() {}
+	ExternalDependencyMapper();
+	virtual ~ExternalDependencyMapper();
 
-	virtual std::string map(const std::string& package_name) const = 0;
+	void add_map(std::string const& key, std::string const& value);
+	virtual std::string map(std::string const& dependency) const;
+
+protected:
+	std::unordered_map<std::string, std::string> internal_map;
 };
-} //hive
 
-#endif //EXTERNALDEPENDENCYMAPPER_H
+} //hive
+#endif // EXTERNALDEPENDENCYMAPPER_H

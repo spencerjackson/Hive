@@ -1,5 +1,5 @@
 /*
-    Hive: A robotics package manager
+    <one line to give the program's name and a brief idea of what it does.>
     Copyright (C) 2011  Spencer Jackson <spencerandrewjackson@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,34 +16,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EXTERNALDEPENDENCYRESOLVER_H
-#define EXTERNALDEPENDENCYRESOLVER_H
+
+#ifndef EXTERNALDEPENDENCYMAPPERFACTORY_H
+#define EXTERNALDEPENDENCYMAPPERFACTORY_H
 
 #include <memory>
-#include <list>
 
 namespace hive {
-
-class ExternalDependency;
 class ExternalDependencyMapperInterface;
-class NativePackageManagerInterface;
+class PackageMapContainer;
 
-class ExternalDependencyResolver {
-
+class ExternalDependencyMapperFactory{
 public:
-	ExternalDependencyResolver(std::unique_ptr<ExternalDependencyMapperInterface>&& mapper);
-	virtual ~ExternalDependencyResolver();
+	ExternalDependencyMapperFactory();
+	virtual ~ExternalDependencyMapperFactory();
 
-	bool is_resolved() const;
-	void add_unresolved_dependency(const std::shared_ptr<ExternalDependency>& dependency);
-	virtual void resolve() = 0;
-
-protected:
-	std::unique_ptr<ExternalDependencyMapperInterface> mapper;
-	std::list<std::shared_ptr<ExternalDependency> > unresolved_dependencies;
-
+	std::unique_ptr<ExternalDependencyMapperInterface> generate_mapper() const;
+	std::unique_ptr<ExternalDependencyMapperInterface> generate_mapper(std::string const& distribution,
+								  PackageMapContainer const& map) const;
 };
 
 } //hive
 
-#endif // EXTERNALDEPENDENCYRESOLVER_H
+#endif // EXTERNALDEPENDENCYMAPPERFACTORY_H

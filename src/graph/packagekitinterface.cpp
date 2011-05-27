@@ -26,7 +26,7 @@
 
 namespace hive {
 
-PackageKitInterface::PackageKitInterface(std::unique_ptr<ExternalDependencyMapper>&& mapper)
+PackageKitInterface::PackageKitInterface(std::unique_ptr<ExternalDependencyMapperInterface>&& mapper)
 : ExternalDependencyResolver(std::move(mapper)) {
 	g_type_init();
 	/* get a session bus connection */

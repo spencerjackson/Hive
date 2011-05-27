@@ -1,0 +1,18 @@
+package hive;
+
+message PackageMapContainer {
+	optional string copyright = 1;
+	optional string description = 2;
+	repeated PackageMap map = 3;
+}
+
+message PackageMap {
+	required string package_name = 1;
+	repeated PackageMapValue value = 2;
+
+}
+
+message PackageMapValue {
+	required string distro = 1;
+	required string value = 2;
+}

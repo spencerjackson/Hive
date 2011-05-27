@@ -23,7 +23,7 @@
 #include "graph/dummyexternaldependencymapper.h"
 
 int main(int argc, char* argv[]) {
-	hive::PackageKitInterface packagekit ={std::unique_ptr<hive::DummyExternalDependencyMapper>(new hive::DummyExternalDependencyMapper())};
+	hive::PackageKitInterface packagekit ={std::unique_ptr<hive::ExternalDependencyMapperInterface>(new hive::DummyExternalDependencyMapper())};
 	packagekit.add_unresolved_dependency(std::shared_ptr<hive::ExternalDependency>(new hive::ExternalDependency("powertop")));
 	packagekit.resolve();
 	return 0;
