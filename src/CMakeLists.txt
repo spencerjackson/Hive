@@ -4,10 +4,11 @@ find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 
 
-set(GRAPH_SRC graph/externaldependencyresolver.cpp graph/node.cpp graph/externaldependency.cpp
+set(GRAPH_SRC graph/nodefactory.cpp graph/externaldependencyresolver.cpp graph/node.cpp graph/externaldependency.cpp
 graph/dummyexternaldependencymapper.cpp graph/externaldependencymapperfactory.cpp
 graph/externaldependencymapper.cpp)
-PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS graph/protocolbuffers/packagemapcontainer.proto)
+PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS graph/protocolbuffers/packagemapcontainer.proto
+graph/protocolbuffers/packagedescription.proto)
 list(APPEND LIBS ${PROTOBUF_LIBRARY})
 
 if(PACKAGEKIT_GLIB2)

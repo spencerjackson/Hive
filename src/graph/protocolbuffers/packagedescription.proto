@@ -1,0 +1,9 @@
+package hive;
+
+message PackageDescription {
+	required string name = 1;
+	required string author = 2;
+	optional string copyright = 3;
+	repeated string dependency = 4;
+	repeated string external_dependency = 5;
+}
