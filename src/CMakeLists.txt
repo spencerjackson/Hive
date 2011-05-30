@@ -2,6 +2,7 @@
 option(PACKAGEKIT_GLIB2 "Use glib2" ON)
 find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 
 set(GRAPH_SRC graph/nodefactory.cpp graph/externaldependencyresolver.cpp graph/node.cpp graph/externaldependency.cpp
@@ -11,6 +12,8 @@ PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS graph/protocolbuffers/packagemapcont
 graph/protocolbuffers/packagedescription.proto)
 list(APPEND LIBS ${PROTOBUF_LIBRARY})
 
+set(IO_SRC util/io/resourcereference.cpp util/io/file.cpp util/io/directory.cpp)
+
 if(PACKAGEKIT_GLIB2)
         include(FindPkgConfig)
         pkg_check_modules(LIBDBUSGLIB REQUIRED dbus-glib-1)
@@ -19,5 +22,5 @@ if(PACKAGEKIT_GLIB2)
         include_directories(${LIBDBUSGLIB_INCLUDE_DIRS})
 endif(PACKAGEKIT_GLIB2)
 
-add_executable(hive main.cpp  ${PROTO_SRCS} ${PROTO_HDRS} ${GRAPH_SRC})
+add_executable(hive main.cpp  ${PROTO_SRCS} ${PROTO_HDRS} ${GRAPH_SRC} ${IO_SRC})
 target_link_libraries(hive ${LIBS})
