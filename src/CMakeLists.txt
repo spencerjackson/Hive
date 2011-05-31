@@ -5,9 +5,9 @@ include_directories(${PROTOBUF_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 
-set(GRAPH_SRC graph/nodefactory.cpp graph/externaldependencyresolver.cpp graph/node.cpp graph/externaldependency.cpp
-graph/dummyexternaldependencymapper.cpp graph/externaldependencymapperfactory.cpp
-graph/externaldependencymapper.cpp)
+set(GRAPH_SRC graph/nodeparser.cpp graph/nodefactory.cpp graph/externaldependencyresolver.cpp
+graph/node.cpp graph/externaldependency.cpp graph/dummyexternaldependencymapper.cpp
+graph/externaldependencymapperfactory.cpp graph/externaldependencymapper.cpp)
 PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS graph/protocolbuffers/packagemapcontainer.proto
 graph/protocolbuffers/packagedescription.proto)
 list(APPEND LIBS ${PROTOBUF_LIBRARY})
