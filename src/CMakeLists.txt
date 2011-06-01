@@ -1,16 +1,19 @@
 
 option(PACKAGEKIT_GLIB2 "Use glib2" ON)
+
 find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+find_package(Gettext REQUIRED)
+include_directories(${GETTEXT_INCLUDE_DIR})
 
+list(APPEND LIBS ${PROTOBUF_LIBRARY} ${GETTEXT_LIBRARY})
 
 set(GRAPH_SRC graph/externaldependencypool.cpp graph/nodeparser.cpp graph/nodefactory.cpp graph/externaldependencyresolver.cpp
 graph/node.cpp graph/externaldependency.cpp graph/dummyexternaldependencymapper.cpp
 graph/externaldependencymapperfactory.cpp graph/externaldependencymapper.cpp)
 PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS graph/protocolbuffers/packagemapcontainer.proto
 graph/protocolbuffers/packagedescription.proto)
-list(APPEND LIBS ${PROTOBUF_LIBRARY})
 
 set(SPACE_SRC space/space.cpp)
 
