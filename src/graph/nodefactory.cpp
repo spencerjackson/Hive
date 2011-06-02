@@ -21,11 +21,20 @@
 #include "node.h"
 
 #include "graph/protocolbuffers/packagedescription.pb.h"
+#include "externaldependencypool.h"
 
 namespace hive {
 
 std::shared_ptr<Node> NodeFactory::construct_node(PackageDescription const& package) {
 	std::shared_ptr<Node> ret{ new Node{package.name()}};
+	//Add dependencies
+	for (int i = 0; i < package.external_dependency_size(); i++) {
+		ExternalDependencyPool::add_dependency(package.external_dependency(i));
+		ret->add_external_dependency(ExternalDependencyPool::get_dependency(package.external_dependency(i)));
+	}
+	for (int i = 0; i < package.dependency_size(); i++) {
+		ret->add_unresolved_dependency(package.dependency(i));
+	}
 	return ret;
 }
 
