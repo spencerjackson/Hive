@@ -17,26 +17,18 @@
 */
 
 
-#include "externaldependencymapper.h"
+#include "hiveexception.h"
 
-#include <stdexcept>
-
-#include "exceptions/unknownmapexception.h"
+#include "util/l10n/l10n.h"
 
 namespace hive {
-ExternalDependencyMapper::ExternalDependencyMapper() {}
 
-ExternalDependencyMapper::~ExternalDependencyMapper() {}
+HiveException::HiveException() {}
 
-void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
-	internal_map[key] = value;
-}
-std::string ExternalDependencyMapper::map(std::string const& dependency) const {
-	try {
-		internal_map.at(dependency);
-	} catch (std::out_of_range e) {
-		throw UnknownMapException(dependency);
-	}
+HiveException::~HiveException() throw() {}
+
+const char* HiveException::what() const throw() {
+	return _(gettext("Unknown Hive exception."));
 }
 
 } //hive

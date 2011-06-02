@@ -17,26 +17,24 @@
 */
 
 
-#include "externaldependencymapper.h"
+#ifndef INVALIDPARSERREQUESTEXCEPTION_H
+#define INVALIDPARSERREQUESTEXCEPTION_H
 
-#include <stdexcept>
+#include <string>
 
-#include "exceptions/unknownmapexception.h"
+#include "graphexception.h"
 
 namespace hive {
-ExternalDependencyMapper::ExternalDependencyMapper() {}
 
-ExternalDependencyMapper::~ExternalDependencyMapper() {}
-
-void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
-	internal_map[key] = value;
-}
-std::string ExternalDependencyMapper::map(std::string const& dependency) const {
-	try {
-		internal_map.at(dependency);
-	} catch (std::out_of_range e) {
-		throw UnknownMapException(dependency);
-	}
-}
+class InvalidParserRequestException : public GraphException {
+public:
+	InvalidParserRequestException(std::string const& package);
+	virtual ~InvalidParserRequestException() throw();
+	const char* what() const throw();
+protected:
+	std::string package;
+};
 
 } //hive
+
+#endif // INVALIDPARSERREQUESTEXCEPTION_H

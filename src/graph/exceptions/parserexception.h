@@ -17,26 +17,20 @@
 */
 
 
-#include "externaldependencymapper.h"
+#ifndef PARSEREXCEPTION_H
+#define PARSEREXCEPTION_H
 
-#include <stdexcept>
-
-#include "exceptions/unknownmapexception.h"
+#include "graphexception.h"
 
 namespace hive {
-ExternalDependencyMapper::ExternalDependencyMapper() {}
 
-ExternalDependencyMapper::~ExternalDependencyMapper() {}
-
-void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
-	internal_map[key] = value;
-}
-std::string ExternalDependencyMapper::map(std::string const& dependency) const {
-	try {
-		internal_map.at(dependency);
-	} catch (std::out_of_range e) {
-		throw UnknownMapException(dependency);
-	}
-}
+class ParserException : public GraphException {
+public:
+	ParserException();
+	virtual ~ParserException() throw();
+	const char* what() const throw();
+};
 
 } //hive
+
+#endif // PARSEREXCEPTION_H

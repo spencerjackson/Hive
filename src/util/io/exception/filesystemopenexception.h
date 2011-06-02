@@ -17,26 +17,24 @@
 */
 
 
-#include "externaldependencymapper.h"
+#ifndef FILESYSTEMOPENEXCEPTION_H
+#define FILESYSTEMOPENEXCEPTION_H
 
-#include <stdexcept>
-
-#include "exceptions/unknownmapexception.h"
+#include "filesystemexception.h"
+#include <string>
 
 namespace hive {
-ExternalDependencyMapper::ExternalDependencyMapper() {}
 
-ExternalDependencyMapper::~ExternalDependencyMapper() {}
-
-void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
-	internal_map[key] = value;
-}
-std::string ExternalDependencyMapper::map(std::string const& dependency) const {
-	try {
-		internal_map.at(dependency);
-	} catch (std::out_of_range e) {
-		throw UnknownMapException(dependency);
-	}
-}
+class FilesystemOpenException : public FilesystemException  {
+public:
+	FilesystemOpenException(std::string const& resource, std::string const& condition);
+	virtual ~FilesystemOpenException() throw();
+	const char* what() const throw();
+protected:
+	std::string resource;
+	std::string condition;
+};
 
 } //hive
+
+#endif // FILESYSTEMOPENEXCEPTION_H

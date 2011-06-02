@@ -17,26 +17,20 @@
 */
 
 
-#include "externaldependencymapper.h"
+#include "unknownmapexception.h"
 
-#include <stdexcept>
-
-#include "exceptions/unknownmapexception.h"
+#include "util/l10n/l10n.h"
 
 namespace hive {
-ExternalDependencyMapper::ExternalDependencyMapper() {}
 
-ExternalDependencyMapper::~ExternalDependencyMapper() {}
+UnknownMapException::UnknownMapException(std::string const& package_key) : package_key(package_key) {}
 
-void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
-	internal_map[key] = value;
+UnknownMapException::~UnknownMapException() throw() {}
+
+//TODO: Include distribution name
+const char* UnknownMapException::what() const throw() {
+	return _("The package %s does not have a known mapping for your OS.");
 }
-std::string ExternalDependencyMapper::map(std::string const& dependency) const {
-	try {
-		internal_map.at(dependency);
-	} catch (std::out_of_range e) {
-		throw UnknownMapException(dependency);
-	}
-}
+
 
 } //hive

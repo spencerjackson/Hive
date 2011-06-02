@@ -22,18 +22,21 @@
 
 #include <string>
 
+#include "exception/filesystemexception.h"
+
 namespace hive {
 
 class ResourceReference;
 
 class File {
 public:
-	File(std::string const& path, int permissions);
-	File(ResourceReference const& reference, int permissions);
-	virtual ~File();
+	File(std::string const& path, int permissions) throw(FilesystemException);
+	File(ResourceReference const& reference, int permissions) throw(FilesystemException);
+	virtual ~File() throw();
 	operator int() const;
 
 protected:
+	void fail(std::string const& resource_name) const throw(FilesystemException);
 	int file;
 };
 

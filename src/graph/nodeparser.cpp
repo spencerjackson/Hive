@@ -28,6 +28,9 @@
 #include "util/io/file.h"
 #include "util/io/directory.h"
 #include "util/io/resourcereference.h"
+#include "exceptions/parserexception.h"
+#include "exceptions/invalidparserrequestexception.h"
+#include <stdexcept>
 
 namespace hive {
 
@@ -43,19 +46,28 @@ void NodeParser::add_collection(Directory const& directory) {
 	for (ResourceReference &subdir_ref : directory.get_directories()) {
 		Directory subdir{subdir_ref};
 		for (ResourceReference &file : subdir.get_files()) {
-			add_file(File(file, O_RDONLY));
+			try {
+				File potential_package{file, O_RDONLY};
+				add_file(potential_package);
+			} catch (std::exception& e) {
+				std::cout << e.what() << std::endl;
+			}
 		}
 	}
 }
 
 void NodeParser::add_file(File const& file) {
 	PackageDescription deserialized_package;
-	if (!deserialized_package.ParseFromFileDescriptor(file)) return;
+	if (!deserialized_package.ParseFromFileDescriptor(file)) throw (ParserException{});
 	add_node(NodeFactory::construct_node(deserialized_package));
 }
 
 std::shared_ptr<Node> NodeParser::get_node(std::string const& name) const {
-	return node_pool.at(name);
+	try {
+		return node_pool.at(name);
+	} catch (std::out_of_range& e) {
+		throw (InvalidParserRequestException(name));
+	}
 }
 
 

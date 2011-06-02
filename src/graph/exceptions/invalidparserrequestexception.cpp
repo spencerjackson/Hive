@@ -17,26 +17,19 @@
 */
 
 
-#include "externaldependencymapper.h"
+#include "invalidparserrequestexception.h"
 
-#include <stdexcept>
-
-#include "exceptions/unknownmapexception.h"
+#include "util/l10n/l10n.h"
 
 namespace hive {
-ExternalDependencyMapper::ExternalDependencyMapper() {}
 
-ExternalDependencyMapper::~ExternalDependencyMapper() {}
+InvalidParserRequestException::InvalidParserRequestException(std::string const& package)
+:package(package) {}
 
-void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
-	internal_map[key] = value;
-}
-std::string ExternalDependencyMapper::map(std::string const& dependency) const {
-	try {
-		internal_map.at(dependency);
-	} catch (std::out_of_range e) {
-		throw UnknownMapException(dependency);
-	}
+InvalidParserRequestException::~InvalidParserRequestException() throw() {}
+
+const char* InvalidParserRequestException::what() const throw() {
+	return _("Requested package %1% does not exist in the parse pool. Likely, the package does not exist.", package);
 }
 
 } //hive
