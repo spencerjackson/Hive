@@ -25,6 +25,8 @@ set(IO_SRC util/io/resourcereference.cpp util/io/file.cpp util/io/directory.cpp)
 set(IO_EXCEPTION util/io/exception/filesystemexception.cpp util/io/exception/filesystemopenexception.cpp)
 list(APPEND IO_SRC ${IO_EXCEPTION})
 
+set(CLI_SRC cli/argumentparser.cpp cli/interstateargument.cpp cli/statechangeargument.cpp cli/argument.cpp cli/argumentparserstate.cpp)
+
 if(PACKAGEKIT_GLIB2)
         include(FindPkgConfig)
         pkg_check_modules(LIBDBUSGLIB REQUIRED dbus-glib-1)
@@ -34,5 +36,5 @@ if(PACKAGEKIT_GLIB2)
 endif(PACKAGEKIT_GLIB2)
 
 add_executable(hive main.cpp  ${PROTO_SRCS} ${PROTO_HDRS} ${GRAPH_SRC} ${IO_SRC} ${SPACE_SRC} ${L10N_SRC}
-util/exception/hiveexception.cpp)
+${CLI_SRC} util/exception/hiveexception.cpp)
 target_link_libraries(hive ${LIBS})
