@@ -20,8 +20,8 @@
 #include "interstateargument.h"
 
 InterstateArgument::InterstateArgument(std::list<std::string>&& possible_tokens, std::string const& description,
-			   int arguments, std::function<void (ArgumentParser&, std::list<std::string>&&)> function)
-: Argument(std::move(possible_tokens), description), arguments(arguments), function(function) {}
+			   int arguments, std::function<void (ArgumentParserState*, ArgumentParser&, std::list<std::string>&&)> function)
+: Argument(std::move(possible_tokens), description), arguments(arguments), function(function), state(NULL) {}
 
 InterstateArgument::~InterstateArgument() {}
 
@@ -29,7 +29,10 @@ unsigned int InterstateArgument::get_argument_count() const {
 	return arguments;
 }
 
+void InterstateArgument::register_state(ArgumentParserState* state) {
+	this->state = state;
+}
 
 void InterstateArgument::operator()(ArgumentParser& parser, std::list<std::string>&& arguments) {
-	function(parser, std::move(arguments));
+	function(state, parser, std::move(arguments));
 }

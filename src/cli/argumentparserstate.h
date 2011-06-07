@@ -30,7 +30,7 @@
 
 class ArgumentParserState {
 public:
-	ArgumentParserState(std::string&& name, std::shared_ptr<ArgumentParser> parser, std::function<void (ArgumentParser&)> terminate_function);
+	ArgumentParserState(std::string&& name, std::shared_ptr<ArgumentParser> parser, std::function<void (ArgumentParser&, ArgumentParserState&)> terminate_function);
 	virtual ~ArgumentParserState();
 
 	std::string get_name() const;
@@ -41,7 +41,7 @@ public:
 protected:
 	std::string name;
 	std::shared_ptr<ArgumentParser> parser;
-	std::function<void (ArgumentParser&)> terminate_function;
+	std::function<void (ArgumentParser&, ArgumentParserState&)> terminate_function;
 	std::unordered_map< std::string, std::shared_ptr<Argument> > arguments;
 
 	std::shared_ptr<Argument> to_be_fed;

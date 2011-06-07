@@ -30,6 +30,8 @@ unsigned int StateChangeArgument::get_argument_count() const {
 	return 0;
 }
 
+void StateChangeArgument::register_state(ArgumentParserState* state) {}
+
 void StateChangeArgument::operator()(ArgumentParser& parser, std::list<std::string>&& arguments) {
 	parser.set_state(state->get_name());
 }

@@ -23,6 +23,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <list>
 
 class ArgumentParserState;
 class ArgumentParser {

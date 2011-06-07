@@ -22,8 +22,10 @@
 #include <list>
 #include <string>
 #include <functional>
+#include <memory>
 
 class ArgumentParser;
+class ArgumentParserState;
 
 class Argument {
 public:
@@ -34,6 +36,7 @@ public:
 	std::string get_description() const;
 	virtual unsigned int get_argument_count() const = 0;
 
+	virtual void register_state(ArgumentParserState* state) = 0;
 	virtual void operator()(ArgumentParser&, std::list<std::string>&&) = 0;
 
 protected:

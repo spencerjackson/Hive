@@ -24,15 +24,17 @@
 class InterstateArgument : public Argument {
 public:
 	InterstateArgument(std::list<std::string>&& possible_tokens, std::string const& description,
-			   int arguments, std::function<void (ArgumentParser&, std::list<std::string>&&)> function);
+			   int arguments, std::function<void (ArgumentParserState*, ArgumentParser&, std::list<std::string>&&)> function);
 	virtual ~InterstateArgument();
 
 	virtual unsigned int get_argument_count() const;
 
+	virtual void register_state(ArgumentParserState* state);
 	virtual void operator()(ArgumentParser&, std::list<std::string>&&);
 protected:
 	const int arguments;
-	const std::function<void (ArgumentParser&, std::list<std::string>&&)> function;
+	const std::function<void (ArgumentParserState*, ArgumentParser&, std::list<std::string>&&)> function;
+	ArgumentParserState* state;
 };
 
 #endif // INTERSTATEARGUMENT_H

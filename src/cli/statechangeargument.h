@@ -24,7 +24,6 @@
 
 #include <memory>
 
-class ArgumentParserState;
 class StateChangeArgument : public Argument {
 public:
 	StateChangeArgument(std::list<std::string>&& possible_tokens, std::string const& description, std::shared_ptr<ArgumentParserState> state);
@@ -32,6 +31,7 @@ public:
 
 	virtual unsigned int get_argument_count() const;
 
+	virtual void register_state(ArgumentParserState* state);
 	virtual void operator()(ArgumentParser&, std::list<std::string>&&);
 protected:
 	std::shared_ptr<ArgumentParserState> state;

@@ -19,7 +19,7 @@
 
 #include "argumentparserstate.h"
 
-ArgumentParserState::ArgumentParserState(std::string&& name, std::shared_ptr< ArgumentParser > parser, std::function<void (ArgumentParser&)> terminate_function)
+ArgumentParserState::ArgumentParserState(std::string&& name, std::shared_ptr< ArgumentParser > parser, std::function<void (ArgumentParser&, ArgumentParserState&)> terminate_function)
 : name(std::move(name)), parser(parser), terminate_function(terminate_function), remaining_tokens_to_feed(0) {}
 
 ArgumentParserState::~ArgumentParserState() {}
@@ -32,6 +32,7 @@ void ArgumentParserState::add_argument(std::shared_ptr<Argument> argument) {
 	for (std::string token : argument->get_tokens()) {
 		arguments[token] = argument;
 	}
+	argument->register_state(this);
 }
 
 void ArgumentParserState::process_token(std::string&& token) {
@@ -45,6 +46,6 @@ void ArgumentParserState::process_token(std::string&& token) {
 }
 
 void ArgumentParserState::terminate() {
-	terminate_function(*parser);
+	terminate_function(*parser, *this);
 }
 
