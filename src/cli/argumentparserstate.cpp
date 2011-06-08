@@ -49,3 +49,11 @@ void ArgumentParserState::terminate() {
 	terminate_function(*parser, *this);
 }
 
+void ArgumentParserState::append_config_list(std::string const& key, std::string const& value) {
+	list_map[key].push_back(value);
+}
+
+std::list<std::string> ArgumentParserState::get_config_list(std::string const& key) const {
+	return list_map.at(key);
+}
+

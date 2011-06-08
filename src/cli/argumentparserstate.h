@@ -38,6 +38,9 @@ public:
 	void add_argument(std::shared_ptr< Argument > argument);
 	void process_token(std::string&& token);
 	virtual void terminate();
+
+	void append_config_list(std::string const& key, std::string const& value);
+	std::list<std::string> get_config_list(std::string const& key) const;
 protected:
 	std::string name;
 	std::shared_ptr<ArgumentParser> parser;
@@ -47,6 +50,8 @@ protected:
 	std::shared_ptr<Argument> to_be_fed;
 	int remaining_tokens_to_feed;
 	std::list<std::string> tokens_to_feed;
+
+	std::unordered_map< std::string, std::list<std::string> > list_map;
 };
 
 #endif // ARGUEMENTPARSERSTATE_H
