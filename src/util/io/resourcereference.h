@@ -30,6 +30,7 @@ public:
 	~ResourceReference();
 
 	std::string get_path() const;
+	operator std::string() const;
 protected:
 	std::string path;
 };

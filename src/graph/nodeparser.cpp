@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include "fcntl.h"
+#include <fstream>
 
 #include "node.h"
 #include <graph/protocolbuffers/packagedescription.pb.h>
@@ -47,8 +48,7 @@ void NodeParser::add_collection(Directory const& directory) {
 		Directory subdir{subdir_ref};
 		for (ResourceReference &file : subdir.get_files()) {
 			try {
-				File potential_package{file, O_RDONLY};
-				add_file(potential_package);
+				add_file(file);
 			} catch (std::exception& e) {
 				std::cout << e.what() << std::endl;
 			}
@@ -56,9 +56,10 @@ void NodeParser::add_collection(Directory const& directory) {
 	}
 }
 
-void NodeParser::add_file(File const& file) {
+void NodeParser::add_file(ResourceReference const& file) {
 	PackageDescription deserialized_package;
-	if (!deserialized_package.ParseFromFileDescriptor(file)) throw (ParserException{});
+	std::ifstream file_stream{file};
+	if (!deserialized_package.ParseFromIstream(&file_stream)) throw (ParserException{});
 	add_node(NodeFactory::construct_node(deserialized_package));
 }
 

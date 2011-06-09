@@ -26,8 +26,8 @@
 
 namespace hive {
 
+class ResourceReference;
 class Directory;
-class File;
 class Node;
 
 class NodeParser {
@@ -37,7 +37,7 @@ public:
 
 	void add_node(std::shared_ptr<Node> const& node);
 	void add_collection(Directory const& directory);
-	void add_file(File const& file);
+	void add_file(ResourceReference const& file);
 
 	std::shared_ptr<Node> get_node(std::string const& name) const;
 

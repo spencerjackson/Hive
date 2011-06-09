@@ -32,4 +32,9 @@ std::string ResourceReference::get_path() const {
 	return path;
 }
 
+ResourceReference::operator std::string() const {
+	return path;
+}
+
+
 } //hive
