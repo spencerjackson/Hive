@@ -57,6 +57,7 @@ protected:
 	std::list<std::string> tokens_to_feed;
 
 	std::unordered_map< std::string, std::list<std::string> > list_map;
+	std::unordered_map< std::string, std::string> map;
 };
 
 #endif // ARGUEMENTPARSERSTATE_H

@@ -62,3 +62,16 @@ std::list<std::string> ArgumentParserState::get_config_list(std::string const& k
 	return list_map.at(key);
 }
 
+void ArgumentParserState::set_config_value(std::string const& key, std::string const& value) {
+	map[key] = value;
+}
+
+std::string ArgumentParserState::get_config_value(std::string const& key) const {
+	return map.at(key);
+}
+
+bool ArgumentParserState::config_value_set(const std::string& key) const {
+	return map.find(key) != map.end();
+}
+
+
