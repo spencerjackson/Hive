@@ -41,6 +41,7 @@ public:
 	std::list<ResourceReference> get_directories() const;
 
 protected:
+	bool is_valid_path(std::string const& path) const;
 	std::string path;
 	DIR* dir;
 

@@ -23,9 +23,9 @@
 
 namespace hive {
 
-Directory::Directory(std::string const& path) : dir(opendir(path.c_str())) {}
+Directory::Directory(std::string const& path) : path(path), dir(opendir(path.c_str())) {}
 
-Directory::Directory(ResourceReference const& resource) : dir(opendir(resource.get_path().c_str())) {}
+Directory::Directory(ResourceReference const& resource) : path(resource.get_path()), dir(opendir(resource.get_path().c_str())) {}
 
 Directory::~Directory() {
 	closedir(dir);
@@ -35,7 +35,7 @@ std::list< ResourceReference > Directory::get_directories() const {
 	std::list< ResourceReference > ret;
 	dirent* entry = NULL;
 	while ((entry = readdir(dir)) != NULL) {
-		if (entry->d_type == DT_DIR) ret.push_back(ResourceReference(path+entry->d_name));
+		if (entry->d_type == DT_DIR && is_valid_path(entry->d_name)) ret.push_back(ResourceReference(path+"/"+entry->d_name));
 	}
 	return ret;
 }
@@ -44,13 +44,13 @@ std::list< ResourceReference > Directory::get_files() const {
 	std::list< ResourceReference > ret;
 	dirent* entry = NULL;
 	while ((entry = readdir(dir)) != NULL) {
-		if (entry->d_type == DT_REG) ret.push_back(ResourceReference(path+entry->d_name));
+		if (entry->d_type == DT_REG) ret.push_back(ResourceReference(path+"/"+entry->d_name));
 	}
 	return ret;
 }
 
-
-
-
+bool Directory::is_valid_path(const std::string& path) const {
+	return path != "." && path != "..";
+}
 
 } //hive
