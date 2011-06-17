@@ -26,13 +26,13 @@
 
 namespace hive {
 
-SpaceResolver::SpaceResolver(std::shared_ptr<NodeParser> parser,
+Space::Space(std::shared_ptr<NodeParser> parser,
 		      std::unique_ptr<ExternalDependencyResolver>&& external_resolver)
 : parser(parser), external_resolver(std::move(external_resolver)) {}
 
-SpaceResolver::~SpaceResolver() {}
+Space::~Space() {}
 
-void SpaceResolver::add_package(std::string const& name) {
+void Space::add_package(std::string const& name) {
 	std::shared_ptr<Node> node = parser->get_node(name);
 	//Resolve dependencies
 	for (std::shared_ptr<ExternalDependency> &external_dependency : node->get_external_dependencies()) {
@@ -41,7 +41,7 @@ void SpaceResolver::add_package(std::string const& name) {
 	resolve_internal_dependency(node);
 }
 
-void SpaceResolver::resolve_internal_dependency(std::shared_ptr<Node> node) const {
+void Space::resolve_internal_dependency(std::shared_ptr<Node> node) const {
 	for (std::string &dependency_name : node->get_unresolved_dependencies()) {
 		std::shared_ptr<Node> dependency = parser->get_node(dependency_name);
 		node->add_dependency(dependency);

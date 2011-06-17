@@ -24,8 +24,8 @@ DummyExternalDependencyMapper::DummyExternalDependencyMapper() {}
 
 DummyExternalDependencyMapper::~DummyExternalDependencyMapper() {}
 
-std::string DummyExternalDependencyMapper::map(std::string const& package_name) const {
-	return package_name;
+std::shared_ptr<ExternalDependency> DummyExternalDependencyMapper::map(std::string const& package_name) const {
+	return std::shared_ptr<ExternalDependency>{new ExternalDependency{package_name}};
 }
 
 } //hive

@@ -29,9 +29,9 @@ ExternalDependencyMapper::ExternalDependencyMapper() {}
 ExternalDependencyMapper::~ExternalDependencyMapper() {}
 
 void ExternalDependencyMapper::add_map(std::string const& key, std::string const& value) {
-	internal_map[key] = value;
+	internal_map[key] = std::shared_ptr<ExternalDependency>{new ExternalDependency{value}};
 }
-std::string ExternalDependencyMapper::map(std::string const& dependency) const {
+std::shared_ptr<ExternalDependency> ExternalDependencyMapper::map(std::string const& dependency) const {
 	try {
 		internal_map.at(dependency);
 	} catch (std::out_of_range e) {

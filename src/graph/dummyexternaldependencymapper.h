@@ -28,7 +28,7 @@ public:
 	DummyExternalDependencyMapper();
 	virtual ~DummyExternalDependencyMapper();
 
-	virtual std::string map(std::string const& package_name) const;
+	virtual std::shared_ptr<ExternalDependency> map(std::string const& package_name) const;
 };
 
 } //hive

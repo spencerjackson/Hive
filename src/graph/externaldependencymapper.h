@@ -22,6 +22,7 @@
 
 #include <string>
 #include <unordered_map>
+
 #include "externaldependencymapperinterface.h"
 
 namespace hive {
@@ -32,10 +33,10 @@ public:
 	virtual ~ExternalDependencyMapper();
 
 	void add_map(std::string const& key, std::string const& value);
-	virtual std::string map(std::string const& dependency) const;
+	virtual std::shared_ptr<ExternalDependency> map(std::string const& dependency) const;
 
 protected:
-	std::unordered_map<std::string, std::string> internal_map;
+	std::unordered_map< std::string, std::shared_ptr<ExternalDependency> > internal_map;
 };
 
 } //hive

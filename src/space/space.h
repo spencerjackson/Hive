@@ -33,16 +33,17 @@ class Node;
 class NodeParser;
 
 
-class SpaceResolver {
+class Space {
 public:
-	SpaceResolver(std::shared_ptr<NodeParser> parser,
+	Space(std::shared_ptr<NodeParser> parser,
 		      std::unique_ptr<ExternalDependencyResolver>&& external_resolver);
-	virtual ~SpaceResolver();
+	virtual ~Space();
 
 	void add_package(std::string const& name);
 
 protected:
 	void resolve_internal_dependency(std::shared_ptr<Node> node) const;
+
 
 	std::list< std::shared_ptr<Node> > nodes;
 	std::unordered_set< std::shared_ptr<ExternalDependency> > external_dependencies;

@@ -34,6 +34,7 @@
 #include "cli/statechangeargument.h"
 #include "util/io/directory.h"
 #include "graph/nodeparser.h"
+#include "hive.h"
 
 void default_state_terminate(ArgumentParser& parser, ArgumentParserState& state);
 void default_add_collection(ArgumentParserState*, ArgumentParser&, std::list<std::string>&&);
@@ -74,15 +75,7 @@ void default_unknown_argument(ArgumentParserState* state, ArgumentParser& parser
 
 
 void default_state_terminate(ArgumentParser& parser, ArgumentParserState& state) {
-	hive::NodeParser node_parser;
-	try {
-		for (std::string &collection : state.get_config_list("collection")) {
-			hive::Directory collection_dir(collection);
-			node_parser.add_collection(collection_dir);
-		}
-	} catch(std::exception& e) {
-		std::cout << _("No package collections specified.") << std::endl;
-	}
+	hive::Hive{std::move(state.get_config_list("collection"))};
 
 	std::cout << _("Default state has concluded.") << std::endl;
 }

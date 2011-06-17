@@ -12,7 +12,7 @@ include_directories(${LIBXERCES_INCLUDE_DIR})
 
 list(APPEND LIBS ${GETTEXT_LIBRARY} ${LIBXERCES_LIBRARIES})
 
-set(GRAPH_SRC graph/externaldependencypool.cpp graph/nodeparser.cpp graph/externaldependencyresolver.cpp
+set(GRAPH_SRC graph/nodeparser.cpp graph/externaldependencyresolver.cpp
 graph/node.cpp graph/externaldependency.cpp graph/dummyexternaldependencymapper.cpp graph/externaldependencymapper.cpp
 graph/nodesax2handler.cpp graph/mapsax2handler.cpp graph/mapparser.cpp)
 set(GRAPH_EXCEPTIONS graph/exceptions/graphexception.cpp graph/exceptions/externalmappingexception.cpp

@@ -1,5 +1,8 @@
 #ifndef EXTERNALDEPENDENCYMAPPERINTERFACE_H
 #define EXTERNALDEPENDENCYMAPPERINTERFACE_H
+
+#include <memory>
+
 #include "externaldependency.h"
 
 namespace hive {
@@ -9,7 +12,7 @@ public:
 	ExternalDependencyMapperInterface() {}
 	virtual ~ExternalDependencyMapperInterface() {}
 
-	virtual std::string map(std::string const& package_name) const = 0;
+	virtual std::shared_ptr<ExternalDependency> map(std::string const& package_name) const = 0;
 };
 } //hive
 
