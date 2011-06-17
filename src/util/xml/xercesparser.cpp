@@ -1,5 +1,5 @@
 /*
-    Hive: A robotics package manager
+    <one line to give the program's name and a brief idea of what it does.>
     Copyright (C) 2011  Spencer Jackson <spencerandrewjackson@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -16,28 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NODEFACTORY_H
-#define NODEFACTORY_H
 
-#include <memory>
+#include "xercesparser.h"
 
-namespace hive {
+#include <xercesc/util/PlatformUtils.hpp>
 
-class Node;
+XercesParser::XercesParser() {
+	xercesc::XMLPlatformUtils::Initialize();
+}
 
+XercesParser::~XercesParser() {
+	xercesc::XMLPlatformUtils::Terminate();
+}
 
-class PackageDescription;
-
-class NodeFactory {
-
-public:
-	NodeFactory() = delete;
-	~NodeFactory() = delete;
-
-
-	static std::shared_ptr<Node> construct_node(PackageDescription const& package);
-};
-
-} //hive
-
-#endif // NODEFACTORY_H

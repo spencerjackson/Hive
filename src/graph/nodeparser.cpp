@@ -22,20 +22,21 @@
 #include <iostream>
 #include "fcntl.h"
 #include <fstream>
+#include <stdexcept>
+
 
 #include "node.h"
-#include <graph/protocolbuffers/packagedescription.pb.h>
-#include "nodefactory.h"
+#include "nodesax2handler.h"
 #include "util/io/file.h"
 #include "util/io/directory.h"
 #include "util/io/resourcereference.h"
+#include "util/xml/xercessax2parser.h"
 #include "exceptions/parserexception.h"
 #include "exceptions/invalidparserrequestexception.h"
-#include <stdexcept>
 
 namespace hive {
 
-NodeParser::NodeParser() {}
+NodeParser::NodeParser() : parser(new XercesSAX2Parser{}) {}
 
 NodeParser::~NodeParser() {}
 
@@ -57,10 +58,9 @@ void NodeParser::add_collection(Directory const& directory) {
 }
 
 void NodeParser::add_file(ResourceReference const& file) {
-	PackageDescription deserialized_package;
-	std::ifstream file_stream{file};
-	if (!deserialized_package.ParseFromIstream(&file_stream)) throw (ParserException{});
-	add_node(NodeFactory::construct_node(deserialized_package));
+	NodeSAX2Handler handler;
+	parser->parse(file, &handler, &handler);
+	node_pool[handler.get_name()] = std::shared_ptr<Node>{new Node{handler.get_name(), handler.get_dependencies()}};
 }
 
 std::shared_ptr<Node> NodeParser::get_node(std::string const& name) const {

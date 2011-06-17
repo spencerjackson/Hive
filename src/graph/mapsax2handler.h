@@ -17,37 +17,43 @@
 */
 
 
-#ifndef NODEPARSER_H
-#define NODEPARSER_H
+#ifndef MAPSAX2HANDLER_H
+#define MAPSAX2HANDLER_H
 
-#include <unordered_map>
 #include <memory>
 #include <string>
 
-class XercesSAX2Parser;
+#include <xercesc/sax2/DefaultHandler.hpp>
+
 namespace hive {
+class ExternalDependencyMapper;
 
-class ResourceReference;
-class Directory;
-class Node;
-
-class NodeParser {
+class MapSAX2Handler : public xercesc::DefaultHandler {
 public:
-	NodeParser();
-	virtual ~NodeParser();
+	MapSAX2Handler(std::string const& distro, std::shared_ptr<ExternalDependencyMapper> mapper);
+	virtual ~MapSAX2Handler();
 
-	void add_node(std::shared_ptr<Node> const& node);
-	void add_collection(Directory const& directory);
-	void add_file(ResourceReference const& file);
-
-	std::shared_ptr<Node> get_node(std::string const& name) const;
-
+	virtual void startElement(
+		const XMLCh* const uri,
+		const XMLCh* const localname,
+		const XMLCh* const qname,
+		const xercesc::Attributes& attrs
+	);
+	virtual void fatalError(const xercesc::SAXParseException&);
+	virtual void characters(const XMLCh *const chars, const unsigned int length);
+	virtual void endElement(const XMLCh *const uri,
+		const XMLCh *const localname,
+		const XMLCh *const qname
+	);
 protected:
-	std::unordered_map< std::string, std::shared_ptr<Node> > node_pool;
+	std::string distro;
+	std::shared_ptr<ExternalDependencyMapper> mapper;
 
-	std::unique_ptr<XercesSAX2Parser> parser;
+	std::string key;
+	bool parse_next_pair;
+	XMLCh* buffer;
 };
 
 } //hive
 
-#endif // NODEPARSER_H
+#endif // MAPSAX2HANDLER_H

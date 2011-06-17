@@ -17,25 +17,31 @@
 */
 
 
-#ifndef EXTERNALDEPENDENCYMAPPERFACTORY_H
-#define EXTERNALDEPENDENCYMAPPERFACTORY_H
-
+#ifndef MAPPARSER_H
+#define MAPPARSER_H
 #include <memory>
 
+class XercesSAX2Parser;
 namespace hive {
-class ExternalDependencyMapperInterface;
-class PackageMapContainer;
 
-class ExternalDependencyMapperFactory{
+class ExternalDependencyMapper;
+class ResourceReference;
+class Directory;
+
+class MapParser {
 public:
-	ExternalDependencyMapperFactory();
-	virtual ~ExternalDependencyMapperFactory();
+	MapParser(std::shared_ptr<ExternalDependencyMapper> mapper);
+	virtual ~MapParser();
 
-	std::unique_ptr<ExternalDependencyMapperInterface> generate_mapper() const;
-	std::unique_ptr<ExternalDependencyMapperInterface> generate_mapper(std::string const& distribution,
-								  PackageMapContainer const& map) const;
+	void add_file(ResourceReference const& file);
+	void add_collection(Directory const& directory);
+
+protected:
+	std::shared_ptr<ExternalDependencyMapper> mapper;
+
+	std::unique_ptr<XercesSAX2Parser> parser;
 };
 
 } //hive
 
-#endif // EXTERNALDEPENDENCYMAPPERFACTORY_H
+#endif // MAPPARSER_H

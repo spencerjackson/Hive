@@ -17,37 +17,13 @@
 */
 
 
-#ifndef NODEPARSER_H
-#define NODEPARSER_H
+#ifndef XERCESPARSER_H
+#define XERCESPARSER_H
 
-#include <unordered_map>
-#include <memory>
-#include <string>
-
-class XercesSAX2Parser;
-namespace hive {
-
-class ResourceReference;
-class Directory;
-class Node;
-
-class NodeParser {
+class XercesParser {
 public:
-	NodeParser();
-	virtual ~NodeParser();
-
-	void add_node(std::shared_ptr<Node> const& node);
-	void add_collection(Directory const& directory);
-	void add_file(ResourceReference const& file);
-
-	std::shared_ptr<Node> get_node(std::string const& name) const;
-
-protected:
-	std::unordered_map< std::string, std::shared_ptr<Node> > node_pool;
-
-	std::unique_ptr<XercesSAX2Parser> parser;
+	XercesParser();
+	virtual ~XercesParser();
 };
 
-} //hive
-
-#endif // NODEPARSER_H
+#endif // XERCESPARSER_H

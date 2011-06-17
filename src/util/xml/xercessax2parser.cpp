@@ -16,38 +16,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "xercessax2parser.h"
 
-#ifndef NODEPARSER_H
-#define NODEPARSER_H
-
-#include <unordered_map>
-#include <memory>
 #include <string>
 
-class XercesSAX2Parser;
-namespace hive {
+#include <xercesc/sax2/SAX2XMLReader.hpp>
+#include <xercesc/sax2/XMLReaderFactory.hpp>
+#include <xercesc/sax2/ContentHandler.hpp>
+#include <xercesc/sax/ErrorHandler.hpp>
 
-class ResourceReference;
-class Directory;
-class Node;
+XercesSAX2Parser::XercesSAX2Parser() : parser(xercesc::XMLReaderFactory::createXMLReader()) {
+	parser->setFeature(xercesc::XMLUni::fgSAX2CoreValidation, true);
+}
 
-class NodeParser {
-public:
-	NodeParser();
-	virtual ~NodeParser();
+XercesSAX2Parser::~XercesSAX2Parser() {
+	delete parser;
+}
 
-	void add_node(std::shared_ptr<Node> const& node);
-	void add_collection(Directory const& directory);
-	void add_file(ResourceReference const& file);
-
-	std::shared_ptr<Node> get_node(std::string const& name) const;
-
-protected:
-	std::unordered_map< std::string, std::shared_ptr<Node> > node_pool;
-
-	std::unique_ptr<XercesSAX2Parser> parser;
-};
-
-} //hive
-
-#endif // NODEPARSER_H
+void XercesSAX2Parser::parse(const std::string& filepath, xercesc::ContentHandler* content, xercesc::ErrorHandler* error) {
+	parser->setContentHandler(content);
+	parser->setErrorHandler(error);
+	parser->parse(filepath.c_str());
+}
