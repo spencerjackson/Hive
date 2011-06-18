@@ -27,28 +27,21 @@ namespace hive {
 
 class ExternalDependency;
 
-class Node : public std::enable_shared_from_this<Node> {
+class Node {
 public:
-	Node(std::string const& name, std::list<std::string>&& unresolved_dependencies = std::list<std::string>{});
+	Node(std::string const& name);
 	virtual ~Node();
 
 	std::string get_name() const {return name;}
-	void add_dependency(std::shared_ptr<Node> const& dependency);
-	void add_reverse_dependency(std::shared_ptr<Node> const& reverse_dependency);
 	void add_external_dependency(std::shared_ptr<ExternalDependency> const& dependency);
-	void add_unresolved_dependency(std::string const& dependency);
 
-	bool is_resolved() const;
-	std::list< std::shared_ptr<Node> > get_dependencies() const;
 	std::list< std::shared_ptr<ExternalDependency> > get_external_dependencies() const;
-	std::list< std::string > get_unresolved_dependencies() const;
 
 protected:
 	std::string name;
 	std::list<std::shared_ptr<Node>> dependencies;
 	std::list<std::shared_ptr<Node>> reverse_dependencies;
 	std::list<std::shared_ptr<ExternalDependency>> external_dependencies;
-	std::list<std::string> unresolved_dependencies;
 };
 
 } //hive

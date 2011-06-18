@@ -27,6 +27,7 @@
 
 #include "node.h"
 #include "nodesax2handler.h"
+#include "graph.h"
 #include "util/io/file.h"
 #include "util/io/directory.h"
 #include "util/io/resourcereference.h"
@@ -36,12 +37,13 @@
 
 namespace hive {
 
-NodeParser::NodeParser() : parser(new XercesSAX2Parser{}) {}
+NodeParser::NodeParser(std::shared_ptr<Graph> graph)
+: parser(new XercesSAX2Parser{}), graph{graph} {}
 
 NodeParser::~NodeParser() {}
 
-void NodeParser::add_node(std::shared_ptr< Node > const& node) {
-	node_pool[node->get_name()] = node;
+void NodeParser::add_node(Node const& node) {
+	graph->add_node(node);
 }
 
 void NodeParser::add_collection(Directory const& directory) {
@@ -60,15 +62,7 @@ void NodeParser::add_collection(Directory const& directory) {
 void NodeParser::add_file(ResourceReference const& file) {
 	NodeSAX2Handler handler;
 	parser->parse(file, &handler, &handler);
-	node_pool[handler.get_name()] = std::shared_ptr<Node>{new Node{handler.get_name(), handler.get_dependencies()}};
-}
-
-std::shared_ptr<Node> NodeParser::get_node(std::string const& name) const {
-	try {
-		return node_pool.at(name);
-	} catch (std::out_of_range& e) {
-		throw (InvalidParserRequestException(name));
-	}
+	add_node(Node{handler.get_name()});
 }
 
 

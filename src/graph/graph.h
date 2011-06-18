@@ -17,35 +17,43 @@
 */
 
 
-#ifndef NODEPARSER_H
-#define NODEPARSER_H
-
-#include <unordered_map>
+#ifndef GRAPH_H
+#define GRAPH_H
 #include <memory>
+#include <list>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 
-class XercesSAX2Parser;
+
+#include "node.h"
+
 namespace hive {
 
-class ResourceReference;
-class Directory;
-class Node;
-class Graph;
-
-class NodeParser {
+class Graph {
 public:
-	NodeParser(std::shared_ptr<Graph> graph);
-	virtual ~NodeParser();
+	Graph();
+	virtual ~Graph();
 
 	void add_node(Node const& node);
-	void add_collection(Directory const& directory);
-	void add_file(ResourceReference const& file);
+	Node get_node(std::string const& name) const;
+	void add_directed_edge(Node const& parent, Node const& child);
 
+	std::list<Node const *> get_linearization() const;
+	/** Return a graph consisting of the specified nodes and all children */
+	Graph get_subset(std::list<std::string> const& items) const;
+
+	void add_subset(Graph const& graph);
+	void add_subset(Graph&& graph);
 protected:
-	std::unique_ptr<XercesSAX2Parser> parser;
-	std::shared_ptr<Graph> graph;
+	std::list< Node const * > get_basal_nodes() const;
+	std::unordered_map< std::string, Node > node_pool;
+	std::unordered_map< Node const *, std::list<Node*> > out_edges;
+	std::unordered_map< Node const *, std::list<Node*> > in_edges;
+	std::unordered_set<Node const *> basal_nodes;
+
 };
 
 } //hive
 
-#endif // NODEPARSER_H
+#endif // GRAPH_H
