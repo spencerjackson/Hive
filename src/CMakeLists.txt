@@ -20,7 +20,7 @@ set(GRAPH_EXCEPTIONS graph/exceptions/graphexception.cpp graph/exceptions/extern
 graph/exceptions/unknownmapexception.cpp graph/exceptions/invalidparserrequestexception.cpp)
 list(APPEND GRAPH_SRC ${GRAPH_EXCEPTIONS})
 
-set(SPACE_SRC space/space.cpp)
+set(SPACE_SRC space/space.cpp space/spacesax2handler.cpp)
 
 set(IO_SRC util/io/resourcereference.cpp util/io/file.cpp util/io/directory.cpp)
 set(IO_EXCEPTION util/io/exception/filesystemexception.cpp util/io/exception/filesystemopenexception.cpp)

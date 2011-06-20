@@ -27,6 +27,7 @@
 
 namespace hive {
 
+class Graph;
 class ExternalDependencyResolver;
 class ExternalDependency;
 class Node;
@@ -35,15 +36,16 @@ class NodeParser;
 
 class Space {
 public:
-	Space(std::shared_ptr<NodeParser> parser,
-		      std::unique_ptr<ExternalDependencyResolver>&& external_resolver);
+	Space(std::string&& name, std::string&& architecture,
+	      std::unique_ptr<Graph>&& graph, std::unique_ptr<ExternalDependencyResolver> external_resolver);
 	virtual ~Space();
 
 protected:
-	std::list< std::shared_ptr<Node> > nodes;
+	std::string name;
+	std::string architecture;
 	std::unordered_set< std::shared_ptr<ExternalDependency> > external_dependencies;
-	std::shared_ptr<NodeParser> parser;
 	std::unique_ptr<ExternalDependencyResolver> external_resolver;
+	std::unique_ptr<Graph> dependency_graph;
 };
 
 } //hive

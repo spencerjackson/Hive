@@ -19,6 +19,7 @@
 
 #include "space.h"
 
+#include "graph/graph.h"
 #include "graph/node.h"
 #include "graph/externaldependency.h"
 #include "graph/nodeparser.h"
@@ -26,9 +27,10 @@
 
 namespace hive {
 
-Space::Space(std::shared_ptr<NodeParser> parser,
-		      std::unique_ptr<ExternalDependencyResolver>&& external_resolver)
-: parser(parser), external_resolver(std::move(external_resolver)) {}
+Space::Space(std::string&& name, std::string&& architecture,
+	      std::unique_ptr<Graph>&& graph, std::unique_ptr<ExternalDependencyResolver> external_resolver)
+: name{std::move(name)}, architecture{std::move(architecture)},
+dependency_graph{std::move(graph)}, external_resolver{std::move(external_resolver)} {}
 
 Space::~Space() {}
 
