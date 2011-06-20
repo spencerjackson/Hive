@@ -25,6 +25,8 @@
 #include <xercesc/sax2/ContentHandler.hpp>
 #include <xercesc/sax/ErrorHandler.hpp>
 
+namespace hive {
+
 XercesSAX2Parser::XercesSAX2Parser() : parser(xercesc::XMLReaderFactory::createXMLReader()) {
 	parser->setFeature(xercesc::XMLUni::fgSAX2CoreValidation, true);
 }
@@ -37,4 +39,6 @@ void XercesSAX2Parser::parse(const std::string& filepath, xercesc::ContentHandle
 	parser->setContentHandler(content);
 	parser->setErrorHandler(error);
 	parser->parse(filepath.c_str());
+}
+
 }

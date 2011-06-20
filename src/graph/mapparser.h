@@ -21,9 +21,9 @@
 #define MAPPARSER_H
 #include <memory>
 
-class XercesSAX2Parser;
 namespace hive {
 
+class XercesSAX2Parser;
 class ExternalDependencyMapper;
 class ResourceReference;
 class Directory;

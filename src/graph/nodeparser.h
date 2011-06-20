@@ -24,9 +24,9 @@
 #include <memory>
 #include <string>
 
-class XercesSAX2Parser;
 namespace hive {
 
+class XercesSAX2Parser;
 class ResourceReference;
 class Directory;
 class Node;

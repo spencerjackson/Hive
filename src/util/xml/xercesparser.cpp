@@ -21,6 +21,8 @@
 
 #include <xercesc/util/PlatformUtils.hpp>
 
+namespace hive {
+
 XercesParser::XercesParser() {
 	xercesc::XMLPlatformUtils::Initialize();
 }
@@ -28,4 +30,6 @@ XercesParser::XercesParser() {
 XercesParser::~XercesParser() {
 	xercesc::XMLPlatformUtils::Terminate();
 }
+
+} //hive
 

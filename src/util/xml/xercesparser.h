@@ -20,10 +20,14 @@
 #ifndef XERCESPARSER_H
 #define XERCESPARSER_H
 
+namespace hive {
+
 class XercesParser {
 public:
 	XercesParser();
 	virtual ~XercesParser();
 };
+
+} //hive
 
 #endif // XERCESPARSER_H

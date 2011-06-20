@@ -27,6 +27,7 @@
 #include "xercesc/sax/ErrorHandler.hpp"
 #include "xercesc/sax2/SAX2XMLReader.hpp"
 
+namespace hive {
 
 class XercesSAX2Parser : public XercesParser {
 public:
@@ -37,5 +38,7 @@ public:
 protected:
 	xercesc::SAX2XMLReader* parser;
 };
+
+} //hive
 
 #endif // XERCESSAX2PARSER_H
