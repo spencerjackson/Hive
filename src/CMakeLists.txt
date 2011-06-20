@@ -17,7 +17,7 @@ graph/node.cpp graph/externaldependency.cpp graph/dummyexternaldependencymapper.
 graph/nodesax2handler.cpp graph/mapsax2handler.cpp graph/mapparser.cpp
 graph/graph.cpp)
 set(GRAPH_EXCEPTIONS graph/exceptions/graphexception.cpp graph/exceptions/externalmappingexception.cpp
-graph/exceptions/unknownmapexception.cpp graph/exceptions/parserexception.cpp graph/exceptions/invalidparserrequestexception.cpp)
+graph/exceptions/unknownmapexception.cpp graph/exceptions/invalidparserrequestexception.cpp)
 list(APPEND GRAPH_SRC ${GRAPH_EXCEPTIONS})
 
 set(SPACE_SRC space/space.cpp)
@@ -27,6 +27,8 @@ set(IO_EXCEPTION util/io/exception/filesystemexception.cpp util/io/exception/fil
 list(APPEND IO_SRC ${IO_EXCEPTION})
 
 set(XML_SRC util/xml/xercessax2parser.cpp util/xml/xercesparser.cpp)
+set(XML_EXCEPTION util/xml/exception/parserexception.cpp)
+list(APPEND XML_SRC ${XML_EXCEPTION})
 
 set(CLI_SRC cli/argumentparser.cpp cli/interstateargument.cpp cli/statechangeargument.cpp cli/argument.cpp cli/argumentparserstate.cpp)
 

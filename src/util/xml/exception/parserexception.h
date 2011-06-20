@@ -20,11 +20,11 @@
 #ifndef PARSEREXCEPTION_H
 #define PARSEREXCEPTION_H
 
-#include "graphexception.h"
+#include "util/exception/hiveexception.h"
 
 namespace hive {
 
-class ParserException : public GraphException {
+class ParserException : public HiveException {
 public:
 	ParserException();
 	virtual ~ParserException() throw();

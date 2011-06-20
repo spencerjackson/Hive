@@ -32,8 +32,6 @@
 #include "util/io/directory.h"
 #include "util/io/resourcereference.h"
 #include "util/xml/xercessax2parser.h"
-#include "exceptions/parserexception.h"
-#include "exceptions/invalidparserrequestexception.h"
 
 namespace hive {
 
