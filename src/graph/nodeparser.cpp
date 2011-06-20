@@ -40,10 +40,6 @@ NodeParser::NodeParser(std::shared_ptr<Graph> graph)
 
 NodeParser::~NodeParser() {}
 
-void NodeParser::add_node(Node const& node) {
-	graph->add_node(node);
-}
-
 void NodeParser::add_collection(Directory const& directory) {
 	for (ResourceReference &subdir_ref : directory.get_directories()) {
 		Directory subdir{subdir_ref};
@@ -60,7 +56,8 @@ void NodeParser::add_collection(Directory const& directory) {
 void NodeParser::add_file(ResourceReference const& file) {
 	NodeSAX2Handler handler;
 	parser->parse(file, &handler, &handler);
-	add_node(Node{handler.get_name()});
+	std::shared_ptr<Node> node{new Node{handler.get_name()}};
+	graph->add_node(node);
 }
 
 

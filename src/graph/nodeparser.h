@@ -37,7 +37,6 @@ public:
 	NodeParser(std::shared_ptr<Graph> graph);
 	virtual ~NodeParser();
 
-	void add_node(Node const& node);
 	void add_collection(Directory const& directory);
 	void add_file(ResourceReference const& file);
 
