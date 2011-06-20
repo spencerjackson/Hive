@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Hive: A robotics package manager
     Copyright (C) 2011  Spencer Jackson <spencerandrewjackson@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -25,32 +25,33 @@
 #include <unordered_map>
 #include <unordered_set>
 
-
-#include "node.h"
-
 namespace hive {
+
+class Node;
 
 class Graph {
 public:
 	Graph();
 	virtual ~Graph();
 
-	void add_node(Node const& node);
-	Node get_node(std::string const& name) const;
-	void add_directed_edge(Node const& parent, Node const& child);
+	void add_node(std::shared_ptr<Node> node);
+	std::shared_ptr<Node> get_node(std::string const& name) const;
+	void add_directed_edge(std::shared_ptr<const Node> const& parent, std::shared_ptr<const Node> const& child);
 
-	std::list<Node const *> get_linearization() const;
-	/** Return a graph consisting of the specified nodes and all children */
-	Graph get_subset(std::list<std::string> const& items) const;
+	std::list<std::shared_ptr<const Node> > get_linearization() const;
+	/** Return a sub graph consisting of the specified nodes and all children */
+	Graph copy_component(std::list<std::string> const& items) const;
+	Graph copy_component(std::string const& item) const;
 
-	void add_subset(Graph const& graph);
-	void add_subset(Graph&& graph);
+	void add_component(Graph const& graph);
+	void add_component(Graph&& graph);
 protected:
-	std::list< Node const * > get_basal_nodes() const;
-	std::unordered_map< std::string, Node > node_pool;
-	std::unordered_map< Node const *, std::list<Node*> > out_edges;
-	std::unordered_map< Node const *, std::list<Node*> > in_edges;
-	std::unordered_set<Node const *> basal_nodes;
+	void copy_component_rec(Graph& graph, std::shared_ptr<Node> node) const;
+	std::list<std::shared_ptr<const Node> > get_basal_nodes() const;
+	std::unordered_map< std::string, std::shared_ptr<Node> > node_pool;
+	std::unordered_map< std::shared_ptr<const Node>, std::list<std::shared_ptr<const Node> > > out_edges;
+	std::unordered_map< std::shared_ptr<const Node>, std::list<std::shared_ptr<const Node> > > in_edges;
+	std::unordered_set<std::shared_ptr<const Node> > basal_nodes;
 
 };
 
