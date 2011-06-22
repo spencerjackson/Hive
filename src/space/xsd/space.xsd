@@ -7,10 +7,10 @@
 		<xs:sequence>
 			<xs:element name="name" type="xs:string"/>
 			<xs:element name="architecture" type="xs:string"/>
-			<xs:element name="packages" minOccur="0">
+			<xs:element name="packages" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="package" maxOccur="unbounded"/>
+						<xs:element name="package" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
