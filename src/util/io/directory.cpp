@@ -31,20 +31,23 @@ Directory::~Directory() {
 	closedir(dir);
 }
 
-std::list< ResourceReference > Directory::get_directories() const {
+std::list< ResourceReference > Directory::get_directories(std::regex const& restriction) const {
 	std::list< ResourceReference > ret;
 	dirent* entry = NULL;
 	while ((entry = readdir(dir)) != NULL) {
-		if (entry->d_type == DT_DIR && is_valid_path(entry->d_name)) ret.push_back(ResourceReference(path+"/"+entry->d_name));
+		if (entry->d_type == DT_DIR && is_valid_path(entry->d_name)
+			&& std::regex_match(entry->d_name, restriction)) ret.push_back(ResourceReference(path+"/"+entry->d_name));
 	}
 	return ret;
 }
 
-std::list< ResourceReference > Directory::get_files() const {
+std::list< ResourceReference > Directory::get_files(std::regex const& restriction) const {
 	std::list< ResourceReference > ret;
 	dirent* entry = NULL;
 	while ((entry = readdir(dir)) != NULL) {
-		if (entry->d_type == DT_REG) ret.push_back(ResourceReference(path+"/"+entry->d_name));
+		if (entry->d_type == DT_REG &&
+			std::regex_match(entry->d_name, restriction)
+		) ret.push_back(ResourceReference(path+"/"+entry->d_name));
 	}
 	return ret;
 }

@@ -20,6 +20,7 @@
 #ifndef DIRECTORY_H
 #define DIRECTORY_H
 
+#include <regex>
 #include <string>
 #include <list>
 
@@ -37,8 +38,8 @@ public:
 	Directory(ResourceReference const& resource);
 	virtual ~Directory();
 
-	std::list<ResourceReference> get_files() const;
-	std::list<ResourceReference> get_directories() const;
+	std::list<ResourceReference> get_files(std::regex const& restriction = std::regex{".*"}) const;
+	std::list<ResourceReference> get_directories(std::regex const& restriction = std::regex{".*"}) const;
 
 protected:
 	bool is_valid_path(std::string const& path) const;

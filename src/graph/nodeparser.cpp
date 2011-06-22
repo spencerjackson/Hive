@@ -19,6 +19,7 @@
 
 #include "nodeparser.h"
 
+#include <regex>
 #include <iostream>
 #include "fcntl.h"
 #include <fstream>
@@ -43,7 +44,7 @@ NodeParser::~NodeParser() {}
 void NodeParser::add_collection(Directory const& directory) {
 	for (ResourceReference &subdir_ref : directory.get_directories()) {
 		Directory subdir{subdir_ref};
-		for (ResourceReference &file : subdir.get_files()) {
+		for (ResourceReference &file : subdir.get_files(std::regex{"manifest.xml"})) {
 			try {
 				add_file(file);
 			} catch (std::exception& e) {
