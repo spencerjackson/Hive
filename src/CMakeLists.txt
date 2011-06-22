@@ -40,5 +40,5 @@ if(PACKAGEKIT_GLIB2)
 endif(PACKAGEKIT_GLIB2)
 
 add_executable(hive main.cpp  ${PROTO_SRCS} ${PROTO_HDRS} ${GRAPH_SRC} ${IO_SRC} ${SPACE_SRC} ${L10N_SRC}
-${CLI_SRC} ${XML_SRC} util/exception/hiveexception.cpp)
+${CLI_SRC} ${XML_SRC} hive.cpp util/exception/hiveexception.cpp)
 target_link_libraries(hive ${LIBS})

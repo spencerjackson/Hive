@@ -38,6 +38,7 @@
 
 void default_state_terminate(ArgumentParser& parser, ArgumentParserState& state);
 void default_add_collection(ArgumentParserState*, ArgumentParser&, std::list<std::string>&&);
+void default_add_space(ArgumentParserState*, ArgumentParser&, std::list<std::string>&&);
 void default_unknown_argument(ArgumentParserState*, ArgumentParser&, std::string&&);
 void help_state_terminate(ArgumentParser& parser, ArgumentParserState& state);
 void help_unknown_argument(ArgumentParserState*, ArgumentParser&, std::string&&);
@@ -50,6 +51,7 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<ArgumentParser> parser{new ArgumentParser{argc, argv}};
 	std::shared_ptr<ArgumentParserState> hivestate{new ArgumentParserState{"default", parser, &default_state_terminate, &default_unknown_argument}};
 	hivestate->add_argument(std::shared_ptr< Argument > {new InterstateArgument{std::list<std::string>{"-c", "--collection"}, "Path to collection of packages to parser", 1, &default_add_collection}});
+	hivestate->add_argument(std::shared_ptr< Argument > {new InterstateArgument{std::list<std::string>{"-s", "--space"}, "Path to a space description", 1, &default_add_space}});
 	std::shared_ptr<ArgumentParserState> helpstate{new ArgumentParserState{"help", parser, &help_state_terminate, &help_unknown_argument}};
 	std::shared_ptr<ArgumentParserState> versionstate{new ArgumentParserState{"version", parser, &version_state_terminate, &version_unknown_argument}};
 	hivestate->add_argument(std::shared_ptr< Argument > {new StateChangeArgument{std::list<std::string>{"-h", "--help"}, "Display possible CLI options for this program", helpstate}});
@@ -75,7 +77,7 @@ void default_unknown_argument(ArgumentParserState* state, ArgumentParser& parser
 
 
 void default_state_terminate(ArgumentParser& parser, ArgumentParserState& state) {
-	hive::Hive{std::move(state.get_config_list("collection"))};
+	hive::Hive{std::move(state.get_config_list("collection")), std::move(state.get_config_list("space"))};
 
 	std::cout << _("Default state has concluded.") << std::endl;
 }
@@ -86,5 +88,10 @@ void version_state_terminate(ArgumentParser& parser, ArgumentParserState& state)
 
 void default_add_collection(ArgumentParserState* state, ArgumentParser& parser, std::list<std::string>&& arguments) {
 	state->append_config_list("collection", arguments.front());
+	arguments.pop_front();
+}
+
+void default_add_space(ArgumentParserState* state, ArgumentParser& parser, std::list<std::string>&& arguments) {
+	state->append_config_list("space", arguments.front());
 	arguments.pop_front();
 }
