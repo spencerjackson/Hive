@@ -38,7 +38,7 @@ public:
 		const xercesc::Attributes& attrs
 	);
 	virtual void fatalError(const xercesc::SAXParseException&);
-	virtual void characters(const XMLCh *const chars, const unsigned int length);
+	virtual void characters(const XMLCh *const chars, const XMLSize_t length);
 	virtual void endElement(const XMLCh *const uri,
 		const XMLCh *const localname,
 		const XMLCh *const qname

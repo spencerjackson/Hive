@@ -34,7 +34,7 @@ void NodeSAX2Handler::startElement(
 void NodeSAX2Handler::fatalError(const xercesc::SAXParseException&) {
 }
 
-void NodeSAX2Handler::characters(const XMLCh*const chars, const unsigned int length) {
+void NodeSAX2Handler::characters(const XMLCh*const chars, const XMLSize_t length) {
 	xercesc::XMLString::catString(buffer, chars);
 }
 
