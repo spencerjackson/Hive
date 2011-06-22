@@ -60,10 +60,24 @@ void NodeParser::add_file(ResourceReference const& file) {
 	NodeSAX2Handler handler;
 	parser->parse(file, &handler, &handler);
 	std::shared_ptr<Node> node{new Node{handler.get_name()}};
-	for (std::string& dependency : handler.get_external_dependencies()) {
-		node->add_external_dependency(mapper->map(dependency));
-	}
 	graph->add_node(node);
+	//Record external dependencies
+	for (std::string& external_dependency : handler.get_external_dependencies()) {
+		node->add_external_dependency(mapper->map(external_dependency));
+	}
+	//Add internal dependencies to the graph
+	for (std::string& dependency : handler.get_dependencies()) {
+		if (graph->has_node(dependency)) graph->add_directed_edge(node, graph->get_node(dependency));
+		//We haven't yet found the Node's dependency... note this and add it later
+		else {
+			unresolved_edges.insert(std::make_pair(dependency, node));
+		}
+	}
+	//Check whether this Node resolves any previously unresolvable dependencies
+	for (std::unordered_multimap<std::string, std::shared_ptr<Node> >::iterator it = unresolved_edges.equal_range(node->get_name()).first; it != unresolved_edges.equal_range(node->get_name()).second; it++) {
+		graph->add_directed_edge(it->second, node);
+		unresolved_edges.erase(it);
+	}
 }
 
 

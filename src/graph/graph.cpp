@@ -20,17 +20,18 @@
 #include "graph.h"
 
 #include <queue>
+#include <stdexcept>
 
 #include "node.h"
 
 namespace hive {
 
-Graph::Graph() {}
+Graph::Graph() : node_pool{} {}
 
 Graph::~Graph() {}
 
 void Graph::add_node(std::shared_ptr<Node> node) {
-	node_pool[node->get_name()] = node;
+	node_pool.insert(std::make_pair(node->get_name(), node));
 	out_edges[node] = std::list<std::shared_ptr<const Node> >{};
 	in_edges[node] = std::list<std::shared_ptr<const Node> >{};
 	basal_nodes.insert(node_pool.at(node->get_name()));
@@ -38,6 +39,10 @@ void Graph::add_node(std::shared_ptr<Node> node) {
 
 std::shared_ptr<Node> Graph::get_node(std::string const& name) const {
 	return node_pool.at(name);
+}
+
+bool Graph::has_node(std::string const& name) const {
+	return (node_pool.find(name) == node_pool.end());
 }
 
 void Graph::add_directed_edge(std::shared_ptr<const Node> const& parent, std::shared_ptr<const Node> const& child) {

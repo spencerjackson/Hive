@@ -36,6 +36,7 @@ public:
 
 	void add_node(std::shared_ptr<Node> node);
 	std::shared_ptr<Node> get_node(std::string const& name) const;
+	bool has_node(std::string const& name) const;
 	void add_directed_edge(std::shared_ptr<const Node> const& parent, std::shared_ptr<const Node> const& child);
 
 	std::list<std::shared_ptr<const Node> > get_linearization() const;

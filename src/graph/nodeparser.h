@@ -44,6 +44,7 @@ public:
 protected:
 	std::unique_ptr<XercesSAX2Parser> parser;
 	std::shared_ptr<ExternalDependencyMapperInterface> mapper;
+	std::unordered_multimap<std::string, std::shared_ptr<Node> > unresolved_edges;
 	std::shared_ptr<Graph> graph;
 };
 
