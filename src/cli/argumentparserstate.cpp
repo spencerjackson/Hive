@@ -44,7 +44,10 @@ void ArgumentParserState::process_token(std::string&& token) {
 			to_be_fed = arguments[token];
 			remaining_tokens_to_feed = to_be_fed->get_argument_count();
 		} else tokens_to_feed.push_back(token);
-		if (remaining_tokens_to_feed == tokens_to_feed.size()) (*to_be_fed)(*parser, std::move(tokens_to_feed));
+		if (remaining_tokens_to_feed == tokens_to_feed.size()) {
+			(*to_be_fed)(*parser, std::move(tokens_to_feed));
+			remaining_tokens_to_feed = 0;
+		}
 	} catch (std::out_of_range& e) {
 		unrecognized_token(this, *parser, std::move(token));
 	}
