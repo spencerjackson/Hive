@@ -31,10 +31,11 @@ class ResourceReference;
 class Directory;
 class Node;
 class Graph;
+class ExternalDependencyMapperInterface;
 
 class NodeParser {
 public:
-	NodeParser(std::shared_ptr<Graph> graph);
+	NodeParser(std::shared_ptr<ExternalDependencyMapperInterface> mapper, std::shared_ptr<Graph> graph);
 	virtual ~NodeParser();
 
 	void add_collection(Directory const& directory);
@@ -42,6 +43,7 @@ public:
 
 protected:
 	std::unique_ptr<XercesSAX2Parser> parser;
+	std::shared_ptr<ExternalDependencyMapperInterface> mapper;
 	std::shared_ptr<Graph> graph;
 };
 

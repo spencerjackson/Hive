@@ -29,6 +29,7 @@
 #include "node.h"
 #include "nodesax2handler.h"
 #include "graph.h"
+#include "externaldependencymapperinterface.h"
 #include "util/io/file.h"
 #include "util/io/directory.h"
 #include "util/io/resourcereference.h"
@@ -36,8 +37,9 @@
 
 namespace hive {
 
-NodeParser::NodeParser(std::shared_ptr<Graph> graph)
-: parser(new XercesSAX2Parser{}), graph{graph} {}
+NodeParser::NodeParser(std::shared_ptr<ExternalDependencyMapperInterface> mapper,
+		       std::shared_ptr<Graph> graph)
+: parser{new XercesSAX2Parser{}}, mapper{mapper}, graph{graph} {}
 
 NodeParser::~NodeParser() {}
 
@@ -58,6 +60,9 @@ void NodeParser::add_file(ResourceReference const& file) {
 	NodeSAX2Handler handler;
 	parser->parse(file, &handler, &handler);
 	std::shared_ptr<Node> node{new Node{handler.get_name()}};
+	for (std::string& dependency : handler.get_external_dependencies()) {
+		node->add_external_dependency(mapper->map(dependency));
+	}
 	graph->add_node(node);
 }
 
