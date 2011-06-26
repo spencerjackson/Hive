@@ -1,5 +1,5 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
+    Hive: A robotics package manager
     Copyright (C) 2011  Spencer Jackson <spencerandrewjackson@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -17,36 +17,37 @@
 */
 
 
-#ifndef NODESAX2HANDLER_H
-#define NODESAX2HANDLER_H
+#ifndef DEFAULTXERCESSAX2HANDLER_H
+#define DEFAULTXERCESSAX2HANDLER_H
 
-#include <string>
-#include <list>
-
-#include "util/xml/defaultxercessax2handler.h"
+#include <xercesc/sax2/DefaultHandler.hpp>
+#include <xercesc/util/XMLString.hpp>
 
 namespace hive {
 
-class NodeSAX2Handler : public DefaultXercesSAX2Handler {
+class DefaultXercesSAX2Handler : public xercesc::DefaultHandler {
 public:
-	NodeSAX2Handler();
-	virtual ~NodeSAX2Handler();
+	DefaultXercesSAX2Handler();
+
+	virtual void fatalError(const xercesc::SAXParseException&);
+	virtual void startElement(
+		const XMLCh* const uri,
+		const XMLCh* const localname,
+		const XMLCh* const qname,
+		const xercesc::Attributes& attrs
+	);
+	virtual void characters(const XMLCh *const chars, const XMLSize_t length);
 
 	virtual void endElement(const XMLCh *const uri,
 		const XMLCh *const localname,
 		const XMLCh *const qname
-	);
-
-	std::string get_name() const;
-	std::list<std::string> get_external_dependencies() const;
-	std::list<std::string> get_dependencies() const;
+	) = 0;
 protected:
-	std::string name;
-	std::list<std::string> external_dependencies;
-	std::list<std::string> dependencies;
+	XMLCh* buffer;
+
 
 };
 
 } //hive
 
-#endif // NODESAX2HANDLER_H
+#endif // DEFAULTXERCESSAX2HANDLER_H

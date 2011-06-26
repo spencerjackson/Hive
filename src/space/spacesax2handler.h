@@ -22,11 +22,10 @@
 
 #include <memory>
 
-#include <xercesc/sax2/DefaultHandler.hpp>
-#include <xercesc/util/XMLString.hpp>
 #include <string>
 #include <list>
 #include "space.h"
+#include <util/xml/defaultxercessax2handler.h>
 
 namespace hive {
 
@@ -35,17 +34,10 @@ class Graph;
 
 class XercesSAX2Parser;
 
-class SpaceSAX2Handler : public xercesc::DefaultHandler {
+class SpaceSAX2Handler : DefaultXercesSAX2Handler {
 public:
 	SpaceSAX2Handler();
-	virtual void startElement(
-		const XMLCh* const uri,
-		const XMLCh* const localname,
-		const XMLCh* const qname,
-		const xercesc::Attributes& attrs
-	);
-	virtual void fatalError(const xercesc::SAXParseException&);
-	virtual void characters(const XMLCh *const chars, const unsigned int length);
+
 	virtual void endElement(const XMLCh *const uri,
 		const XMLCh *const localname,
 		const XMLCh *const qname
@@ -55,8 +47,6 @@ public:
 
 
 protected:
-	XMLCh* buffer;
-	std::unique_ptr<XercesSAX2Parser> parser;
 	std::string name;
 	std::string architecture;
 	std::list<std::string> packages;

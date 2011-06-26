@@ -19,24 +19,11 @@
 
 #include "nodesax2handler.h"
 
-NodeSAX2Handler::NodeSAX2Handler() : buffer{xercesc::XMLString::transcode("")} {}
+namespace hive {
+
+NodeSAX2Handler::NodeSAX2Handler() {}
 
 NodeSAX2Handler::~NodeSAX2Handler() {}
-
-void NodeSAX2Handler::startElement(
-	const XMLCh* const uri,
-	const XMLCh* const localname,
-	const XMLCh* const qname,
-	const xercesc::Attributes& attrs) {
-	buffer = xercesc::XMLString::transcode("");
-}
-
-void NodeSAX2Handler::fatalError(const xercesc::SAXParseException&) {
-}
-
-void NodeSAX2Handler::characters(const XMLCh*const chars, const XMLSize_t length) {
-	xercesc::XMLString::catString(buffer, chars);
-}
 
 void NodeSAX2Handler::endElement(const XMLCh*const uri, const XMLCh*const localname, const XMLCh*const qname) {
 	if (!xercesc::XMLString::compareIString(localname, xercesc::XMLString::transcode("name"))) name = std::string(xercesc::XMLString::transcode(buffer));
@@ -56,4 +43,6 @@ std::list<std::string> NodeSAX2Handler::get_external_dependencies() const {
 std::list<std::string> NodeSAX2Handler::get_dependencies() const {
 	return dependencies;
 }
+
+} //hive
 

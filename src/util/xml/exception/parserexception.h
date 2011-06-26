@@ -20,6 +20,8 @@
 #ifndef PARSEREXCEPTION_H
 #define PARSEREXCEPTION_H
 
+#include <string>
+
 #include "util/exception/hiveexception.h"
 
 namespace hive {
@@ -27,8 +29,11 @@ namespace hive {
 class ParserException : public HiveException {
 public:
 	ParserException();
+	ParserException(std::string const& error_message);
 	virtual ~ParserException() throw();
 	const char* what() const throw();
+protected:
+	const std::string error_message;
 };
 
 } //hive

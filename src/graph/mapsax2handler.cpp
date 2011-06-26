@@ -30,18 +30,10 @@ MapSAX2Handler::MapSAX2Handler(std::string const& distro, std::shared_ptr<Extern
 
 MapSAX2Handler::~MapSAX2Handler() {}
 
-void MapSAX2Handler::characters(const XMLCh*const chars, const unsigned int length) {
-	xercesc::XMLString::catString(buffer, chars);
-}
-
 void MapSAX2Handler::endElement(const XMLCh*const uri, const XMLCh*const localname, const XMLCh*const qname) {
 	if (parse_next_pair) {
 		mapper->add_map(key, std::string{xercesc::XMLString::transcode(buffer)});
 	}
-}
-
-void MapSAX2Handler::fatalError(const xercesc_3_0::SAXParseException& e) {
-    xercesc_3_0::DefaultHandler::fatalError(e);
 }
 
 void MapSAX2Handler::startElement(const XMLCh*const uri, const XMLCh*const localname, const XMLCh*const qname, const xercesc_3_0::Attributes& attrs) {

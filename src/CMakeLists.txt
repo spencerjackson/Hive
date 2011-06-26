@@ -26,7 +26,7 @@ set(IO_SRC util/io/resourcereference.cpp util/io/file.cpp util/io/directory.cpp)
 set(IO_EXCEPTION util/io/exception/filesystemexception.cpp util/io/exception/filesystemopenexception.cpp)
 list(APPEND IO_SRC ${IO_EXCEPTION})
 
-set(XML_SRC util/xml/xercessax2parser.cpp util/xml/xercesparser.cpp)
+set(XML_SRC util/xml/defaultxercessax2handler.cpp util/xml/xercessax2parser.cpp util/xml/xercesparser.cpp)
 set(XML_EXCEPTION util/xml/exception/parserexception.cpp)
 list(APPEND XML_SRC ${XML_EXCEPTION})
 

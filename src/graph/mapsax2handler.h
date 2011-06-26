@@ -23,24 +23,21 @@
 #include <memory>
 #include <string>
 
-#include <xercesc/sax2/DefaultHandler.hpp>
+#include <util/xml/defaultxercessax2handler.h>
 
 namespace hive {
 class ExternalDependencyMapper;
 
-class MapSAX2Handler : public xercesc::DefaultHandler {
+class MapSAX2Handler : public DefaultXercesSAX2Handler {
 public:
 	MapSAX2Handler(std::string const& distro, std::shared_ptr<ExternalDependencyMapper> mapper);
 	virtual ~MapSAX2Handler();
 
-	virtual void startElement(
-		const XMLCh* const uri,
-		const XMLCh* const localname,
-		const XMLCh* const qname,
-		const xercesc::Attributes& attrs
-	);
-	virtual void fatalError(const xercesc::SAXParseException&);
-	virtual void characters(const XMLCh *const chars, const unsigned int length);
+	virtual void startElement(const XMLCh*const uri,
+						  const XMLCh*const localname,
+					   const XMLCh*const qname,
+					   const xercesc_3_0::Attributes& attrs);
+
 	virtual void endElement(const XMLCh *const uri,
 		const XMLCh *const localname,
 		const XMLCh *const qname

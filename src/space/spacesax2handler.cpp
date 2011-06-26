@@ -24,15 +24,7 @@
 namespace hive {
 
 SpaceSAX2Handler::SpaceSAX2Handler()
-: parser{new XercesSAX2Parser{}}, readable(false) {}
-
-void SpaceSAX2Handler::startElement(const XMLCh*const uri, const XMLCh*const localname, const XMLCh*const qname, const xercesc_3_0::Attributes& attrs) {
-	buffer = xercesc::XMLString::transcode("");
-}
-
-void SpaceSAX2Handler::characters(const XMLCh*const chars, const unsigned int length) {
-	xercesc::XMLString::catString(buffer, chars);
-}
+:readable(false) {}
 
 void SpaceSAX2Handler::endElement(const XMLCh*const uri, const XMLCh*const localname, const XMLCh*const qname) {
 	//Found beginning of new Space. Dump currently parsed data
@@ -47,10 +39,6 @@ void SpaceSAX2Handler::endElement(const XMLCh*const uri, const XMLCh*const local
 	} else if (!xercesc::XMLString::compareIString(localname, xercesc::XMLString::transcode("package"))) {
 		packages.push_back(std::string{xercesc::XMLString::transcode(buffer)});
 	}
-}
-
-void SpaceSAX2Handler::fatalError(const xercesc_3_0::SAXParseException& e) {
-    xercesc_3_0::DefaultHandler::fatalError(e);
 }
 
 Space SpaceSAX2Handler::read_space(std::shared_ptr<Graph> available_packages, std::unique_ptr<ExternalDependencyResolver>&& external_resolver) {

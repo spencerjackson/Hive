@@ -17,20 +17,27 @@
 */
 
 
-#include "parserexception.h"
+#include "defaultxercessax2handler.h"
 
+#include "exception/parserexception.h"
 #include "util/l10n/l10n.h"
 
 namespace hive {
 
-ParserException::ParserException() : error_message{_("Parser exception. Unable to process input.")} {}
+DefaultXercesSAX2Handler::DefaultXercesSAX2Handler() : buffer{xercesc::XMLString::transcode("")} {}
 
-hive::ParserException::ParserException(const std::string& error_message): error_message{error_message} {}
+void DefaultXercesSAX2Handler::fatalError(const xercesc::SAXParseException& e) {
+	throw ParserException{_("Unable to process XML. Received error %1% at line %2%, column %3%",
+				std::string{xercesc::XMLString::transcode(e.getMessage())}, e.getLineNumber(), e.getColumnNumber())};
+}
 
-ParserException::~ParserException() throw() {}
 
-const char* ParserException::what() const throw() {
-	return error_message.c_str();
+void DefaultXercesSAX2Handler::startElement(const XMLCh*const uri, const XMLCh*const localname, const XMLCh*const qname, const xercesc_3_0::Attributes& attrs) {
+	buffer = xercesc::XMLString::transcode("");
+}
+
+void DefaultXercesSAX2Handler::characters(const XMLCh *const chars, const XMLSize_t length){
+	xercesc::XMLString::catString(buffer, chars);
 }
 
 } //hive
